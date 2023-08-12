@@ -16,50 +16,55 @@ class HomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
+                const Center(
                   child: Text(
                     'NFT Marketplace',
                     style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(height: 48),
-                Container(
+                const SizedBox(height: 48),
+                SizedBox(
                   height: 186,
-                  child: ListView(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    primary: false,
                     scrollDirection: Axis.horizontal,
-                    itemExtent: 280,
-                    children: [
-                      NftCategoryItem(),
-                      NftCategoryItem(),
-                      NftCategoryItem(),
-                    ],
+                    itemBuilder: (BuildContext context, int index) {
+                      return const NftCategoryItem();
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(width: 10);
+                    },
+                    itemCount: 5,
                   ),
                 ),
-                SizedBox(height: 19),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                const SizedBox(height: 19),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     'Trending Collections',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(height: 19),
-                Container(
+                const SizedBox(height: 19),
+                SizedBox(
                   height: 216,
-                  child: ListView(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    primary: false,
                     scrollDirection: Axis.horizontal,
-                    itemExtent: 175 + 10,
-                    children: [
-                      NftTrendingItem(),
-                      NftTrendingItem(),
-                      NftTrendingItem(),
-                      NftTrendingItem(),
-                    ],
+                    itemBuilder: (BuildContext context, int index) {
+                      return const NftTrendingItem();
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(width: 10);
+                    },
+                    itemCount: 5,
                   ),
                 ),
-                SizedBox(height: 19),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                const SizedBox(height: 19),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -74,11 +79,12 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 19),
+                const SizedBox(height: 19),
                 SizedBox(
                   height: 262,
                   child: ListView.separated(
                     shrinkWrap: true,
+                    primary: false,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
                       return const NftTopSellerItem();
@@ -88,12 +94,16 @@ class HomePage extends StatelessWidget {
                     },
                     itemCount: 5,
                   ),
+                ),
+                const SizedBox(
+                  height: 30,
                 )
               ],
             ),
           ),
         ),
       ),
+
     );
   }
 }
@@ -104,8 +114,9 @@ class NftCategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 280,
+      height: 186,
       alignment: AlignmentDirectional.bottomCenter,
-      margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         image: const DecorationImage(
@@ -137,8 +148,9 @@ class NftTrendingItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(right: 10),
-      padding: EdgeInsets.all(10),
+      height: 216,
+      width: 175,
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey.withOpacity(0.5)),
         borderRadius: BorderRadius.circular(30),
@@ -152,8 +164,8 @@ class NftTrendingItem extends StatelessWidget {
                 fit: BoxFit.cover,
                 height: 155,
               )),
-          SizedBox(height: 10),
-          Row(
+          const SizedBox(height: 10),
+          const Row(
             children: [
               Expanded(
                   child: Text('Samurai Girl skdjflsd',
@@ -170,7 +182,7 @@ class NftTrendingItem extends StatelessWidget {
                   )),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
         ],
       ),
     );
@@ -199,15 +211,15 @@ class NftTopSellerItem extends StatelessWidget {
                 'assets/images/nft1.png',
                 fit: BoxFit.cover,
               )),
-          SizedBox(height: 10),
-          Column(
+          const SizedBox(height: 10),
+          const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Samurai Girl', maxLines: 1, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
               Text('kenpai pandas #2538', maxLines: 1, style: TextStyle(fontSize: 12, color: Color(0xff8D8D8D))),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             children: [
               Image.asset(
@@ -216,14 +228,14 @@ class NftTopSellerItem extends StatelessWidget {
                 height: 13,
                 color: Colors.white,
               ),
-              Expanded(child: Text('Samurai Girl skdjflsd', maxLines: 1, style: TextStyle(fontSize: 13))),
-              Icon(
+              const Expanded(child: Text('Samurai Girl skdjflsd', maxLines: 1, style: TextStyle(fontSize: 13))),
+              const Icon(
                 Icons.favorite,
                 color: Colors.red,
                 size: 13,
               ),
-              SizedBox(width: 5),
-              Text('1800',
+              const SizedBox(width: 5),
+              const Text('1800',
                   style: TextStyle(
                     fontSize: 13,
                   )),
