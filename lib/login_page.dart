@@ -1,7 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nftmarket/add_nft_page.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final emailTextController = TextEditingController();
+  final passwordTextController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailTextController.dispose();
+    passwordTextController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +54,10 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 48),
               // Email and password login
-              const Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: TextField(
+                  controller: emailTextController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Email',
@@ -47,10 +65,11 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              const Padding(
+                Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: TextField(
                   obscureText: true,
+                  controller: passwordTextController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Password',
@@ -60,13 +79,59 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 16),
               // Login button
               FilledButton.tonal(
-                onPressed: () {},
+                onPressed: () async {
+                  final email = emailTextController.text;
+                  final password = passwordTextController.text;
+                  print('Email: $email, Password: $password');
+
+                  if (email.isEmpty || password.isEmpty) {
+                    ScaffoldMessenger.maybeOf(context)
+                        ?.showSnackBar(SnackBar(content: Text('Email or password is empty')));
+                    return;
+                  }
+                  try {
+                    final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: email,
+                      password: password,
+                    );
+
+                    print('User: ${userCredential.user?.email}');
+
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AddNftPage()));
+                  } catch (error) {
+                    ScaffoldMessenger.maybeOf(context)?.showSnackBar(SnackBar(content: Text(error.toString())));
+                  }
+                },
                 child: const Center(child: Text('Login')),
               ),
               const SizedBox(height: 16),
               // Login button
               FilledButton.tonal(
-                onPressed: () {},
+                onPressed: ()async{
+                  final email = emailTextController.text;
+                  final password = passwordTextController.text;
+                  print('Email: $email, Password: $password');
+
+                  if (email.isEmpty || password.isEmpty) {
+                    ScaffoldMessenger.maybeOf(context)
+                        ?.showSnackBar(SnackBar(content: Text('Email or password is empty')));
+
+                    return;
+                  }
+                  try {
+                    final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                      email: email,
+                      password: password,
+                    );
+
+                    print('User: ${userCredential.user?.email}');
+
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AddNftPage()));
+                  } catch (error) {
+                    ScaffoldMessenger.maybeOf(context)?.showSnackBar(SnackBar(content: Text(error.toString())));
+                  }
+
+                },
                 child: const Center(child: Text('Signup')),
               )
             ],
