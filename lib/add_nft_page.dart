@@ -1,7 +1,34 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-class AddNftPage extends StatelessWidget {
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+import 'nft.dart';
+
+class AddNftPage extends StatefulWidget {
   const AddNftPage({Key? key}) : super(key: key);
+
+  @override
+  State<AddNftPage> createState() => _AddNftPageState();
+}
+
+class _AddNftPageState extends State<AddNftPage> {
+  final nftNameTextController = TextEditingController();
+  final priceTextController = TextEditingController();
+  final ImagePicker imagePicker = ImagePicker();
+
+  File? selectedImage;
+
+  bool isLoading = false;
+
+  @override
+  void dispose() {
+    nftNameTextController.dispose();
+    priceTextController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +65,10 @@ class AddNftPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 48),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: TextField(
+                      controller: nftNameTextController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'NFT Name',
@@ -52,6 +80,7 @@ class AddNftPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: TextField(
+                      controller: priceTextController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(),
@@ -64,11 +93,28 @@ class AddNftPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    height: 500,
-                    margin: const EdgeInsets.all(16),
-                    color: Colors.white.withOpacity(0.2),
-                    child: const Center(child: Text('Select Image')),
+                  InkWell(
+                    onTap: () async {
+                      final image = await imagePicker.pickImage(source: ImageSource.gallery);
+                      setState(() {
+                        selectedImage = File(image!.path);
+                        if (selectedImage != null) {
+                          print(selectedImage?.path);
+                        }
+                      });
+                    },
+                    child: Container(
+                      height: 500,
+                      margin: const EdgeInsets.all(16),
+                      color: Colors.white.withOpacity(0.2),
+                      alignment: Alignment.center,
+                      child: selectedImage != null
+                          ? Image.file(
+                              selectedImage!,
+                              fit: BoxFit.fitWidth,
+                            )
+                          : Text('Select Image'),
+                    ),
                   )
                 ],
               ),
@@ -77,10 +123,44 @@ class AddNftPage extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          FilledButton.tonal(
-            onPressed: () {},
-            child: const Text('Add NFT'),
-          ),
+          if (isLoading)
+            CircularProgressIndicator()
+          else
+            FilledButton.tonal(
+              onPressed: () async {
+                if (nftNameTextController.text.isEmpty || priceTextController.text.isEmpty || selectedImage == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Please fill all fields'),
+                  ));
+                } else {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  final uploadTask =
+                      FirebaseStorage.instance.ref('nfts/${nftNameTextController.text}').putFile(selectedImage!);
+                  final snapshot = await uploadTask;
+                  final downloadUrl = await snapshot.ref.getDownloadURL();
+                  print(downloadUrl);
+
+                  final name = nftNameTextController.text;
+                  final price = priceTextController.text;
+
+                  final nft = Nft(name, double.parse(price), downloadUrl);
+
+                  await FirebaseFirestore.instance.collection('nfts').add(nft.toJson());
+
+                  setState(() {
+                    isLoading = false;
+                  });
+                  // show success message
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('NFT added successfully'),
+                  ));
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text('Add NFT'),
+            ),
           const SizedBox(
             height: 16,
           ),
