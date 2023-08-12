@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "99188636945",
+    "project_id": "test-nftm",
+    "storage_bucket": "test-nftm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:99188636945:android:9b90e63b446da09120a0b0",
+        "android_client_info": {
+          "package_name": "com.example.nftmarket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "99188636945-bq6k4c05a86g0n9bl1vme0bu9tamva29.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5bRr1C2CJYj1WT7cJm45S68uN8-Nqj9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "99188636945-bq6k4c05a86g0n9bl1vme0bu9tamva29.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

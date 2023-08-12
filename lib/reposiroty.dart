@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 class Repository {
   static final Repository _instance = Repository._internal();
 
@@ -7,5 +9,5 @@ class Repository {
     return _instance;
   }
 
-  bool isLogin = false;
+  bool get isLogin => FirebaseAuth.instance.currentUser != null;
 }
