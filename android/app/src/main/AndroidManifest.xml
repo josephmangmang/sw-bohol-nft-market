@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Add the following permissions inside the <manifest> element. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="nftmarket"
         android:name="${applicationName}"

@@ -23,6 +23,9 @@ class _AddNftPageState extends State<AddNftPage> {
 
   bool isLoading = false;
 
+  bool isTrending = false;
+  bool isTopSelling = false;
+
   @override
   void dispose() {
     nftNameTextController.dispose();
@@ -93,6 +96,24 @@ class _AddNftPageState extends State<AddNftPage> {
                       ),
                     ),
                   ),
+
+                  CheckboxListTile(
+                      title: Text('Trending'),
+                      value: isTrending,
+                      onChanged: (value) {
+                        setState(() {
+                          isTrending = value!;
+                        });
+                      }),
+
+                  CheckboxListTile(
+                      title: Text('Top selling'),
+                      value: isTopSelling,
+                      onChanged: (value) {
+                        setState(() {
+                          isTopSelling = value!;
+                        });
+                      }),
                   InkWell(
                     onTap: () async {
                       final image = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -124,7 +145,7 @@ class _AddNftPageState extends State<AddNftPage> {
             height: 16,
           ),
           if (isLoading)
-            CircularProgressIndicator()
+            const CircularProgressIndicator()
           else
             FilledButton.tonal(
               onPressed: () async {
@@ -145,7 +166,12 @@ class _AddNftPageState extends State<AddNftPage> {
                   final name = nftNameTextController.text;
                   final price = priceTextController.text;
 
-                  final nft = Nft(name, double.parse(price), downloadUrl);
+                  final nft = Nft(
+                      name: name,
+                      price: double.parse(price),
+                      image: downloadUrl,
+                      isTrending: isTrending,
+                      isTopSelling: isTopSelling);
 
                   await FirebaseFirestore.instance.collection('nfts').add(nft.toJson());
 
