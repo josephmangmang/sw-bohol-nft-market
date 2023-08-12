@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nftmarket/nft.dart';
 
+
 class Repository {
   static final Repository _instance = Repository._internal();
 
@@ -19,8 +20,8 @@ class Repository {
         .where('isTrending', isEqualTo: true)
         .snapshots()
         .map((snapshot) {
-          return snapshot.docs.map((doc) => Nft.fromJson(doc.data())).toList();
-        });
+      return snapshot.docs.map((doc) => Nft.fromJson(doc.data())).toList();
+    });
   }
 
   Stream<List<Nft>> getTopSellingNfts() {

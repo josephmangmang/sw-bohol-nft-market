@@ -5,12 +5,23 @@ import 'package:nftmarket/login_page.dart';
 import 'package:nftmarket/nft.dart';
 
 import 'add_nft_page.dart';
+import 'nft_category.dart';
 import 'reposiroty.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final Repository repository = Repository();
+  final List<NftCategory> categories = [
+    NftCategory('Gaming', 'assets/images/Category/Image (8).png'),
+    NftCategory('Art', 'assets/images/Category/Image (9).png'),
+    NftCategory('Virtual Worlds', 'assets/images/Category/Image (10).png'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -32,17 +43,18 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   height: 186,
                   child: ListView.separated(
-                    shrinkWrap: true,
-                    primary: false,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      return const NftCategoryItem();
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(width: 10);
-                    },
-                    itemCount: 5,
-                  ),
+                      shrinkWrap: true,
+                      primary: false,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, int index) {
+                        return NftCategoryItem(
+                          category: categories[index],
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const SizedBox(width: 10);
+                      },
+                      itemCount: categories.length),
                 ),
                 const SizedBox(height: 19),
                 const Padding(
@@ -167,7 +179,9 @@ class HomePage extends StatelessWidget {
 }
 
 class NftCategoryItem extends StatelessWidget {
-  const NftCategoryItem({super.key});
+  const NftCategoryItem({super.key, required this.category});
+
+  final NftCategory category;
 
   @override
   Widget build(BuildContext context) {
@@ -177,8 +191,8 @@ class NftCategoryItem extends StatelessWidget {
       alignment: AlignmentDirectional.bottomCenter,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        image: const DecorationImage(
-          image: AssetImage('assets/images/nft1.png'),
+        image: DecorationImage(
+          image: AssetImage(category.image),
           fit: BoxFit.cover,
         ),
       ),
@@ -189,8 +203,8 @@ class NftCategoryItem extends StatelessWidget {
             height: 60,
             decoration: BoxDecoration(color: Colors.black.withOpacity(0.1)),
             alignment: AlignmentDirectional.center,
-            child: const Text(
-              'Gaming',
+            child: Text(
+              category.name,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
             ),
           ),
