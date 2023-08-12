@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nftmarket/add_nft_page.dart';
 
 import 'home_page.dart';
 

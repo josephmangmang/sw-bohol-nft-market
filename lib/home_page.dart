@@ -1,7 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import 'add_nft_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -104,8 +105,13 @@ class HomePage extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Image.asset(
-        'assets/images/nav_icons/Minted Button.png',
+      floatingActionButton: InkWell(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddNftPage()));
+        },
+        child: Image.asset(
+          'assets/images/nav_icons/Minted Button.png',
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
           child: Container(
