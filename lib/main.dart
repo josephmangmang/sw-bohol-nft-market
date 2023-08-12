@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nftmarket/add_nft_page.dart';
 
 import 'home_page.dart';
 
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark(useMaterial3: true).copyWith(
         textTheme: ThemeData.dark().textTheme.apply(fontFamily: 'SFProDisplay'),
       ),
-      home: const HomePage(),
+      home:   HomePage(),
     );
   }
 }

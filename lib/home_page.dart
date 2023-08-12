@@ -1,11 +1,15 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:nftmarket/login_page.dart';
 
 import 'add_nft_page.dart';
+import 'reposiroty.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  final Repository repository = Repository();
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +111,11 @@ class HomePage extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddNftPage()));
+          if (repository.isLogin) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const AddNftPage()));
+          } else {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+          }
         },
         child: Image.asset(
           'assets/images/nav_icons/Minted Button.png',
