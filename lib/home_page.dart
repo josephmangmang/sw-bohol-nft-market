@@ -103,7 +103,25 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Image.asset(
+        'assets/images/nav_icons/Minted Button.png',
+      ),
+      bottomNavigationBar: BottomAppBar(
+          child: Container(
+        height: 60,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.asset('assets/images/nav_icons/Home.png'),
+            Image.asset('assets/images/nav_icons/Stats.png'),
+            const SizedBox.shrink(),
+            Image.asset('assets/images/nav_icons/Explore.png'),
+            Image.asset('assets/images/nav_icons/More.png'),
+          ],
+        ),
+      )),
     );
   }
 }
